@@ -1,0 +1,218 @@
+/* ============================= */
+/* Main Wrapper */
+/* ============================= */
+.profile-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 40px;
+  background-color: #800000; /* Maroon background */
+  min-height: 100vh;
+}
+
+/* ============================= */
+/* Global Add Profile Button */
+/* ============================= */
+.global-add-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  color: #800000;
+  border: none;
+  border-radius: 50%;
+  padding: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.global-add-btn:hover {
+  background-color: #a00000;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* ============================= */
+/* Profile List Container */
+/* ============================= */
+.profile-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* ============================= */
+/* Profile Card Styles */
+/* ============================= */
+.profile-card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  width: 260px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+  cursor: pointer;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Active (Clicked) Profile Card */
+.profile-card.active {
+  border: 3px solid #ffd700; /* Gold highlight */
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  transform: scale(1.03);
+}
+
+/* ============================= */
+/* Avatar Section */
+/* ============================= */
+.profile-avatar {
+  background-color: #f0f0f0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-icon {
+  color: #800000;
+}
+
+.profile-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+/* ============================= */
+/* Profile Details */
+/* ============================= */
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #555;
+}
+
+.profile-detail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* ============================= */
+/* Add Profile Form Styles */
+/* ============================= */
+.add-profile-form {
+  background-color: #fff;
+  padding: 20px 25px;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.add-profile-form h3 {
+  text-align: center;
+  color: #800000;
+  margin-bottom: 8px;
+}
+
+.add-profile-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.add-profile-form input:focus {
+  border-color: #800000;
+}
+
+.add-profile-form button {
+  background-color: #800000;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-profile-form button:hover {
+  background-color: #a00000;
+  transform: scale(1.03);
+}
+
+/* ============================= */
+/* Active Profile Section */
+/* ============================= */
+.active-profile {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px 25px;
+  width: 300px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  text-align: left;
+  animation: fadeIn 0.4s ease;
+}
+
+.active-profile h3 {
+  text-align: center;
+  color: #800000;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.active-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.active-profile-card h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.active-profile-card p {
+  margin: 2px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* ============================= */
+/* Animations */
+/* ============================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

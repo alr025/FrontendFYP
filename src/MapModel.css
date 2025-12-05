@@ -1,0 +1,118 @@
+/* Layout wrapper */
+.map-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 300px;
+  background: #fff;
+  padding: 12px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  color: black;
+}
+
+.sidebar h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.sidebar li:hover {
+  background: #f9f9f9;
+  transform: translateX(2px);
+}
+
+.sidebar li b {
+  font-size: 14px;
+  color: #222;
+}
+
+.sidebar li small {
+  color: #666;
+  font-size: 12px;
+}
+
+/* Map wrapper */
+.map-wrapper {
+  flex-grow: 1;
+  position: relative;
+}
+
+/* Controls panel (top center) */
+.controls {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+}
+
+.controls input[type="text"] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 200px;
+  background: white;
+  color: black;
+}
+
+/* Reusable button style */
+.btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Specific button colors */
+.btn-search {
+  background: #4caf50;
+}
+
+.btn-location {
+  background: #2196f3;
+}
+
+.btn-done {
+  background: #ff5722;
+}
+
+/* Leaflet map fills container */
+.leaflet-map {
+  width: 100%;
+  height: 100%;
+}

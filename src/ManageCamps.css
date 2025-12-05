@@ -1,0 +1,138 @@
+/* 🔴 Full Red Background Wrapper */
+.manage-camps-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #d32f2f;
+  padding: 30px;
+  font-family: "Inter", system-ui, sans-serif;
+  border-radius: 0; 
+  box-shadow: none;
+}
+
+/* 🔴 Header / Title */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ac0101;
+  padding: 15px 20px;
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 25px;
+}
+
+.header h2 {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+}
+
+/* 🔵 Add New Button */
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #d32f2f;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.add-btn:hover {
+  background: #b71c1c;
+}
+
+/* 📌 Camp Form */
+.camp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.camp-form input,
+.camp-form textarea {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  font-size: 15px;
+}
+
+/* 💾 Save Button */
+.save-btn {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.save-btn:hover {
+  background: #b71c1c;
+}
+
+/* 📋 Camp List Container */
+.camp-list {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 🧾 Camp Card */
+.camp-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  border: none;
+  transition: 0.2s;
+}
+
+.camp-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 5px 14px rgba(0,0,0,0.12);
+}
+
+/* 🔹 Camp Card Header */
+.camp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 🛠 Action Buttons */
+.camp-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 6px;
+  font-size: 18px;
+}
+
+.edit-btn {
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.delete-btn {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* 😕 No Camps Message */
+.no-camps {
+  font-size: 18px;
+  text-align: center;
+  margin-top: 40px;
+  color: white;
+}

@@ -1,0 +1,67 @@
+.blood-request-form {
+  background-color: #f8f9fa;
+  padding: 20px;
+      width: 500px;
+  max-width: 500px;
+  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #dc2626;
+  font-size: 1.8rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+      
+}
+
+label {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+input, select, textarea {
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.blood-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.blood-group select, .blood-group input {
+  width: 48%;
+}
+
+button.post-button {
+  background-color: #dc2626;
+  color: white;
+  padding: 15px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button.post-button:hover {
+  background-color: #991b1b;
+}

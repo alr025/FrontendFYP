@@ -1,0 +1,22 @@
+.hospital-page {
+  padding: 40px;
+  background: #f9fafb;
+  text-align: center;
+}
+
+.location-list {
+  list-style: none;
+  margin-top: 20px;
+  padding: 0;
+}
+
+.location-list li {
+  background: #fff;
+  border: 2px solid #800000;
+  padding: 12px;
+  margin: 10px auto;
+  width: 60%;
+  border-radius: 8px;
+  color: #800000;
+  font-weight: 500;
+}

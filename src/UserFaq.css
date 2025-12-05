@@ -1,0 +1,97 @@
+/* PAGE WRAPPER */
+.page1-wrapper {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #0a0f1f; /* Deep navy */
+  color: #fff;
+}
+
+/* TITLE */
+.faq-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 40px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/* ROW LAYOUT */
+.faq-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+/* CARD STYLE */
+.faq-container {
+  width: 100%;
+  max-width: 600px;
+}
+
+.faq-box {
+  background: #11182c;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.faq-box h2 {
+  color: #ff5678;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* BLOOD TABLE GRID */
+.blood-table {
+  display: grid;
+  grid-template-columns: 100px repeat(8, 1fr);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.header-row, .data-row {
+  display: contents;
+}
+
+.corner-cell,
+.header-cell {
+  background: #162040;
+  padding: 10px;
+  font-weight: 600;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+  text-align: center;
+}
+
+.recipient {
+  background: #1d2b52;
+}
+
+.data-cell {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+  font-size: 1.3rem;
+}
+
+/* DONOR ELIGIBILITY */
+.eligibility-list li {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .blood-table {
+    grid-template-columns: 70px repeat(8, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .blood-table {
+    font-size: 0.75rem;
+  }
+}

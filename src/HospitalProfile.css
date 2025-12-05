@@ -1,0 +1,16 @@
+.hospital-page {
+  padding: 40px;
+  background: #fff5f5;
+  text-align: center;
+}
+
+.profile-card {
+  background: white;
+  border: 2px solid #800000;
+  border-radius: 12px;
+  width: 320px;
+  margin: 20px auto;
+  padding: 20px;
+  text-align: left;
+  color: #800000;
+}

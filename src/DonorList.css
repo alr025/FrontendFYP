@@ -1,0 +1,117 @@
+/* 🔴 Full Red Background Wrapper */
+.page-wrapper,
+.manage-camps-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #d32f2f;
+  padding: 30px;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* 🔴 Header / Title */
+h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  background: #ac0101;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 🔵 Back Button */
+.back-btn {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 15px;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 500;
+}
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* 📌 Main List Container */
+.donor-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 🧾 Card Style (White Boxes) */
+.donor-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  border: none;
+  transition: 0.2s;
+}
+
+.donor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 5px 14px rgba(0,0,0,0.12);
+}
+
+/* 🔹 Title Inside Card */
+.donor-card h3 {
+  font-size: 18px;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+/* 🔹 Info Rows */
+.req-row,
+.donor-card p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+/* 🔥 Red Icons */
+.req-icon {
+  color: #d32f2f;
+}
+
+/* 🟠 Pending Status */
+.status-row .warn {
+  color: orange;
+}
+
+.req-status {
+  font-weight: bold;
+  color: orange;
+}
+
+/* 🔴 Respond Button */
+.respond-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 0;
+  background: #d32f2f;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.respond-btn:hover {
+  background: #b71c1c;
+}
+
+/* 😕 When No Requests */
+.no-requests {
+  font-size: 18px;
+  text-align: center;
+  margin-top: 40px;
+  color: white;
+}

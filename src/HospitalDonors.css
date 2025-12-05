@@ -1,0 +1,25 @@
+.hospital-page {
+  padding: 40px;
+  background-color: #f8fafc;
+  text-align: center;
+}
+
+.donor-table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 70%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.donor-table th, .donor-table td {
+  border: 1px solid #800000;
+  padding: 12px;
+}
+
+.donor-table th {
+  background-color: #800000;
+  color: white;
+}
+.donor-table td {
+  color: black; /* body text color */
+}

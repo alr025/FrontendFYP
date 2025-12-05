@@ -1,0 +1,73 @@
+/* 🌐 General Page Layout */
+.page-wrapper,
+.locations-page
+{
+  max-width: 750px;
+  margin: 2rem auto;
+  background: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", system-ui, sans-serif;
+  color: #1f2937;
+}
+
+/* 🩸 Headings */
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+/* 🧭 Back Button */
+.back-btn {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+.back-btn:hover {
+  text-decoration: underline;
+}
+/* 📍 Locations */
+.add-location {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.add-location input {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.6rem;
+}
+.add-location button {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+.add-location button:hover {
+  background-color: #1e40af;
+}
+.location-list {
+  list-style: none;
+  padding: 0;
+}
+.location-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.6rem;
+}
+
