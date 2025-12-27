@@ -1,0 +1,107 @@
+.bloodbank-wrapper {
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
+  padding-top: 20px;
+}
+
+.bloodbank-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffefef;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border-left: 5px solid #d90000;
+}
+
+.bloodbank-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  color: #b80000;
+}
+
+.add-btn {
+  background: #b80000;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #900000;
+}
+
+.bloodbank-table {
+  background: rgb(51, 51, 51);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+}
+
+.table-header, .table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 80px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ececec;
+}
+
+.table-header {
+  font-weight: bold;
+  color: #000000;
+}
+
+.table-row span {
+  font-size: 16px;
+}
+
+.del-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c70000;
+}
+
+.del-btn:hover {
+  color: #900000;
+}
+
+.empty-msg {
+  text-align: center;
+  padding: 20px 0;
+  color: #ffffff;
+}
+
+.manual-stock {
+  margin: 20px 0;
+  background: #fff5f5;
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 4px solid #b80000;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.manual-stock h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #b80000;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.manual-stock select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}

@@ -4,6 +4,7 @@ import {
   Users,
   User,
   Building2,
+  Droplet,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./OrganizationHomePage.css";
@@ -26,8 +27,8 @@ export default function OrganizationHomePage() {
   // ✅ Centralized menu configuration
   const menuItems = [
     { label: "Manage Camps", icon: <CalendarDays size={28} />, path: "/org/camps" },
-    { label: "Donor List", icon: <Users size={28} />, path: "/org/donors" },
     { label: "View Requests", icon: <User size={28} />, path: "/org/requests" },
+    { label: "Blood Bank", icon: <Droplet size={28} />, path: "/org/bloodbank" }
   ];
 
   return (
@@ -75,7 +76,7 @@ export default function OrganizationHomePage() {
                 <p className="menu-label">{item.label}</p>
               </Link>
 
-              {/* 🔹 Submenu only for Manage Camps */}
+              {/* 🔹 Submenu only for Manage Camps
               {item.label === "Manage Camps" && (
                 <div className="submenu">
                   <Link to="/org/camps/create" className="submenu-btn">
@@ -85,7 +86,7 @@ export default function OrganizationHomePage() {
                     📅 Active
                   </Link>
                 </div>
-              )}
+              )} */}
             </div>
           ))}
         </div>

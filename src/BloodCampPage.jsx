@@ -5,8 +5,27 @@ import "./BloodCampPage.css";
 export default function BloodCampPage() {
   const [camps, setCamps] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [registeredCampIds, setRegisteredCampIds] = useState([]);
+ const [activeUser, setActiveUser] = useState(
+  JSON.parse(localStorage.getItem("activeUser"))
+);
 
-  // 🚀 FETCH CAMPS FROM BACKEND (GET ONLY)
+useEffect(() => {
+  const handleStorageChange = () => {
+    setActiveUser(JSON.parse(localStorage.getItem("activeUser")));
+  };
+
+  window.addEventListener("storage", handleStorageChange);
+
+  return () => window.removeEventListener("storage", handleStorageChange);
+}, []);
+
+const userId = activeUser?.id || null;
+console.log("activeUser:", activeUser);
+console.log("userId:", userId);
+
+
+  // Fetch all camps
   useEffect(() => {
     fetch("http://localhost/webapi/api/bloodcamp/GetCamps")
       .then((res) => res.json())
@@ -15,23 +34,62 @@ export default function BloodCampPage() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error loading camps:", err);
+        console.error(err);
         setLoading(false);
       });
   }, []);
 
-  // 🟢 REGISTER BUTTON HANDLER
-  const handleRegister = (index) => {
-    const updated = [...camps];
+  // Fetch registered camps for logged-in user
+  useEffect(() => {
+    if (!userId) return;
 
-    if (updated[index].registered < updated[index].slots) {
-      updated[index].registered += 1;
-      alert(`You are registered for ${updated[index].name}!`);
-    } else {
-      alert("Sorry, this camp is full.");
+    const fetchRegisteredCamps = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost/webapi/api/bloodcamp/user-registrations/${userId}`
+        );
+        const data = await res.json();
+        setRegisteredCampIds(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchRegisteredCamps();
+  }, [userId]);
+
+  // Register button handler
+  const handleRegister = async (campId, index) => {
+    if (!userId) {
+      alert("Please login first to register for camps.");
+      return;
     }
 
-    setCamps(updated);
+    try {
+      const res = await fetch(
+        `http://localhost/webapi/api/bloodcamp/register/${userId}/${campId}`,
+        { method: "POST" }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.Message || "Registration failed");
+        return;
+      }
+
+      // Update local state
+      const updatedCamps = [...camps];
+      updatedCamps[index].registered += 1;
+      setCamps(updatedCamps);
+
+      setRegisteredCampIds([...registeredCampIds, campId]);
+
+      alert("✅ You are registered for this camp!");
+    } catch (err) {
+      console.error(err);
+      alert("❌ Network error, please try again.");
+    }
   };
 
   if (loading) return <h2>Loading camps...</h2>;
@@ -46,7 +104,6 @@ export default function BloodCampPage() {
         {camps.map((camp, index) => (
           <div className="camp-card" key={camp.id || index}>
             <h2>{camp.name}</h2>
-
             <p><Calendar size={16}/> {camp.date} | {camp.time}</p>
             <p><MapPin size={16}/> {camp.location}</p>
             <p><Droplet size={16}/> Needed: {camp.blood_groups}</p>
@@ -55,12 +112,16 @@ export default function BloodCampPage() {
             <p><ClipboardCheck size={16}/> Status: <strong>{camp.status}</strong></p>
             <p><strong>Organizer:</strong> {camp.organizer}</p>
 
-            {/* 🟦 Register Button */}
-            <button 
-              className="register-btn" 
-              onClick={() => handleRegister(index)}
+            <button
+              className="register-btn"
+              disabled={!userId || registeredCampIds.includes(camp.id)}
+              onClick={() => handleRegister(camp.id, index)}
             >
-              Register
+              {!userId
+                ? "Login to register"
+                : registeredCampIds.includes(camp.id)
+                ? "Registered ✔"
+                : "Register"}
             </button>
           </div>
         ))}

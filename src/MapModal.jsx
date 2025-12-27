@@ -1,8 +1,8 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import "./MapModel.css"; // CSS we wrote earlier
 
 // Custom red pin icon
@@ -36,16 +36,25 @@ const MapModal = () => {
     [37.0841, 77.8375], // NE
   ];
 
+  // Notification coordinates
+  const location = useLocation();
+  const coords = location.state?.coords;
+  const name = location.state?.name;
+
   // Fetch hospitals from API
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-       const res = await axios.get("http://localhost/BloodDonationAndEmergencyHealthServicesAPI/api/organizations");
+        const res = await axios.get(
+          "http://localhost/BloodDonationAndEmergencyHealthServicesAPI/api/organizations"
+        );
 
         setOrganizations(res.data);
 
         // Add markers for all hospitals
         const map = leafletMapRef.current;
+        if (!map) return;
+
         res.data.forEach((org) => {
           if (org.latitude && org.longitude) {
             L.marker([org.latitude, org.longitude], { icon: redIcon })
@@ -93,6 +102,19 @@ const MapModal = () => {
     markerRef.current.bindPopup("📍 Islamabad").openPopup();
     setSelectedCoords({ lat: islamabadCoords[0], lng: islamabadCoords[1] });
 
+    // ✅ Show notification marker if coords exist
+    if (coords) {
+      if (markerRef.current) map.removeLayer(markerRef.current);
+
+      markerRef.current = L.marker([coords.lat, coords.lng], { icon: redIcon })
+        .addTo(map)
+        .bindPopup(`<b>${name}</b>`)
+        .openPopup();
+
+      map.setView([coords.lat, coords.lng], 16);
+      setSelectedCoords(coords);
+    }
+
     // Double-click to place marker
     map.on("dblclick", (e) => {
       const { lat, lng } = e.latlng;
@@ -113,7 +135,7 @@ const MapModal = () => {
     });
 
     return () => map.remove();
-  }, []);
+  }, [coords]);
 
   // Handle geolocation
   const handleFindLocation = () => {

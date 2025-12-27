@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  Droplet,
   ClipboardList,
-  Users,
-  FilePlus2,
-  MapPin,
-  HelpCircle,
-  User,
+  Users, 
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./HospitalHomePage.css";
@@ -23,12 +18,8 @@ export default function HospitalHomePage() {
   }, []);
 
   const menuItems = [
-    { label: "Blood Inventory", icon: <Droplet size={28} />, path: "/hospital/inventory" },
-    { label: "Requests", icon: <ClipboardList size={28} />, path: "/hospital/requests" },
+    { label: "Request Blood", icon: <ClipboardList size={28} />, path: "/hospital/requests" },
     { label: "Donors", icon: <Users size={28} />, path: "/hospital/donors" },
-    { label: "Add Stock", icon: <FilePlus2 size={28} />, path: "/hospital/add-stock" },
-    { label: "Locations", icon: <MapPin size={28} />, path: "/hospital/locations" },
-    { label: "Profile", icon: <User size={28} />, path: "/hospital/profile" },
   ];
 
   return (

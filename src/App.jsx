@@ -17,6 +17,8 @@ import HospitalHomePage from "./HospitalHomePage";
 import ManageCamps from "./ManageCamps";
 import DonorList from "./DonorList";
 import ViewRequests from "./ViewRequests";
+import OrganizationBloodBank from "./OrganizationBloodBank";
+
 
 import HospitalInventory from "./HospitalInventory";
 import HospitalRequests from "./HospitalRequests";
@@ -45,7 +47,7 @@ function App() {
         <Route path="/camp" element={<BloodCampPage />} />
 
         {/* Family members */}
-        <Route path="/family-members" element={<FamilyMembers />} />
+        /*<Route path="/family-members" element={<FamilyMembers />} />*/
         <Route path="/familymembers" element={<FamilyMembers />} />
 
         {/* --- Organization Routes --- */}
@@ -53,6 +55,7 @@ function App() {
         <Route path="/org/camps" element={<ManageCamps />} />
         <Route path="/org/donors" element={<DonorList />} />
         <Route path="/org/requests" element={<ViewRequests />} />
+        <Route path="/org/bloodbank" element={<OrganizationBloodBank />} />
 
         {/* --- Hospital Routes --- */}
         <Route path="/HospitalHomePage" element={<HospitalHomePage />} />
@@ -62,6 +65,7 @@ function App() {
         <Route path="/hospital/add-stock" element={<HospitalAddStock />} />
         <Route path="/hospital/locations" element={<HospitalLocations />} />
         <Route path="/hospital/profile" element={<HospitalProfile />} />
+
       </Routes>
     </Router>
   );

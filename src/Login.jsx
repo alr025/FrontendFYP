@@ -94,6 +94,7 @@ export default function Login() {
       localStorage.setItem(
         "activeUser",
         JSON.stringify({
+           id: response.data.UserId,  
           name: response.data.Name,
           email: response.data.Email,
           bloodGroup: response.data.BloodType,
@@ -126,61 +127,62 @@ export default function Login() {
   // REGISTER FUNCTION
   // ------------------------------------------
   const handleRegister = async () => {
-    try {
-      const payload = {
-        Name: registerName,
-        Email: registerEmail,
-        Password: registerPassword,
-        Type: category || "Person",
-        BloodType: bloodType,
-      };
+  try {
+    const payload = {
+      Name: registerName,
+      Email: registerEmail,
+      Password: registerPassword,
+      Type: category || "Person",
+      BloodType: bloodType,
+      Location: location,    // FIXED
+    };
 
-      const response = await axios.post(`${API_BASE}/Signup`, payload);
+    const response = await axios.post(`${API_BASE}/Signup`, payload);
 
-      alert("Registration successful! Welcome " + response.data.Name);
+    alert("Registration successful! Welcome " + response.data.Name);
 
-      // Save user immediately after registration
-      localStorage.setItem(
-        "activeUser",
-        JSON.stringify({
-          name: response.data.Name,
-          email: response.data.Email,
-          bloodGroup: response.data.BloodType,
-          role: response.data.Role,
-        })
-      );
+    localStorage.setItem(
+      "activeUser",
+      JSON.stringify({
+        id: response.data.UserId,
+        name: response.data.Name,
+        email: response.data.Email,
+        bloodGroup: response.data.BloodType,
+        role: response.data.Role,
+        location: response.data.Location,    // OPTIONAL SAVE
+      })
+    );
 
-      // Navigate based on role
-      switch (response.data.Role) {
-        case "Person":
-          navigate("/UserHomePage");
-          break;
-        case "Hospital":
-          navigate("/HospitalHomePage");
-          break;
-        case "bloodBank":
-          navigate("/OrganizationHomePage");
-          break;
-        default:
-          setActiveTab("login");
-      }
-
-      // Clear fields
-      setRegisterName("");
-      setRegisterEmail("");
-      setRegisterPassword("");
-      setCategory("");
-      setBloodType("");
-      setLocation("");
-      setIsCovidVaccinated(false);
-
-    } catch (error) {
-      alert(
-        "❌ Registration Error: " +
-          (error.response?.data?.Message || "Server error")
-      );
+    switch (response.data.Role) {
+      case "Person":
+        navigate("/UserHomePage");
+        break;
+      case "Hospital":
+        navigate("/HospitalHomePage");
+        break;
+      case "bloodBank":
+        navigate("/OrganizationHomePage");
+        break;
+      default:
+        setActiveTab("login");
     }
-  };
+
+    // Reset fields
+    setRegisterName("");
+    setRegisterEmail("");
+    setRegisterPassword("");
+    setCategory("");
+    setBloodType("");
+    setLocation("");
+
+  } catch (error) {
+    alert(
+      "❌ Registration Error: " +
+        (error.response?.data?.Message || "Server error")
+    );
+  }
+};
+
   return (
     <div className="login-container">
       {/* Left Section */}
