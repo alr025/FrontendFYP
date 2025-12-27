@@ -2,161 +2,142 @@ import React, { useState } from "react";
 import "./HospitalRequests.css";
 
 export default function HospitalRequests() {
-  const [bloodType, setBloodType] = useState("");
-  const [units, setUnits] = useState("");
-  const [location, setLocation] = useState("Click to detect location...");
-  const [loadingLocation, setLoadingLocation] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    hospitalName: "City Hospital",
+    bloodGroup: "",
+    units: 1,
+    latitude: null,
+    longitude: null,
+  });
+
+  const [locStatus, setLocStatus] = useState("");
+  const [searchMessage, setSearchMessage] = useState("");
+  const [bloodResults, setBloodResults] = useState([]);
+
+  const bloodCompatibility = {
+    "A+": ["A+", "A-", "O+", "O-"],
+    "A-": ["A-", "O-"],
+    "B+": ["B+", "B-", "O+", "O-"],
+    "B-": ["B-", "O-"],
+    "AB+": ["AB+", "AB-", "A+", "A-", "B+", "B-", "O+", "O-"],
+    "AB-": ["AB-", "A-", "B-", "O-"],
+    "O+": ["O+", "O-"],
+    "O-": ["O-"]
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setBloodResults([]);
+    setSearchMessage("");
+  };
+
+  const detectLocation = () => {
+    setLocStatus("📍 Getting location...");
+    if (!navigator.geolocation) return setLocStatus("❌ Geolocation not supported");
+
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        setFormData(prev => ({
+          ...prev,
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude
+        }));
+        setLocStatus(`📍 Location added (Lat: ${pos.coords.latitude}, Lng: ${pos.coords.longitude})`);
+      },
+      () => setLocStatus("❌ Location permission denied")
+    );
+  };
+
+  const searchBloodStock = async () => {
+    if (!formData.bloodGroup) {
+      setSearchMessage("Please select blood group first");
+      return;
+    }
+    setSearchMessage("Searching blood availability...");
+    try {
+      const res = await fetch("http://localhost/webapi/api/BloodStock");
+      const data = await res.json();
+      const allowedGroups = bloodCompatibility[formData.bloodGroup] || [];
+      const filtered = data.filter(
+        item => allowedGroups.includes(item.BloodGroup?.toUpperCase()) && item.Status === "available"
+      );
+      setBloodResults(filtered);
+      setSearchMessage(filtered.length === 0 ? "No compatible blood available" : "");
+    } catch {
+      setSearchMessage("Error searching blood");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const payload = {
-      hospital_name: "City Hospital", // You can make this dynamic later
-      blood_type: bloodType,
-      units: parseInt(units),
-      location: location,
-    };
-
     try {
-      setLoading(true);
+      const payload = {
+        hospital_name: formData.hospitalName,
+        blood_type: formData.bloodGroup,
+        units: parseInt(formData.units),
+        location: `${formData.latitude},${formData.longitude}`,
+        status: "pending"
+      };
 
       const res = await fetch("http://localhost/webapi/api/HospitalRequest/add", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
 
       const data = await res.json();
-      console.log("API Response:", data);
-
       if (res.ok) {
         alert("Blood request submitted successfully!");
-        resetForm();
-      } else {
-        alert("Error: " + (data.message || "Unable to save request"));
-      }
-    } catch (error) {
-      console.error("Error submitting request:", error);
-      alert("Failed to send request. Check backend.");
+        setFormData(prev => ({ ...prev, bloodGroup: "", units: 1 }));
+        setBloodResults([]);
+      } else alert("Error: " + (data.Message || "Unable to submit"));
+    } catch (err) {
+      alert("Network error. Try again.");
     }
-
-    setLoading(false);
-  };
-
-  const resetForm = () => {
-    setBloodType("");
-    setUnits("");
-    setLocation("Click to detect location...");
-  };
-
-  /** 📍 Auto-Fill GPS Location */
-  const detectLocation = () => {
-    setLoadingLocation(true);
-
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
-      setLoadingLocation(false);
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const { latitude, longitude } = pos.coords;
-
-        try {
-          const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
-          );
-          const data = await res.json();
-
-          const address =
-            data?.display_name || `${latitude}, ${longitude}`;
-
-          setLocation(address);
-        } catch (error) {
-          alert("Unable to fetch location details.");
-          setLocation(`${latitude}, ${longitude}`);
-        }
-
-        setLoadingLocation(false);
-      },
-      () => {
-        alert("Unable to retrieve your location.");
-        setLoadingLocation(false);
-      }
-    );
   };
 
   return (
     <div className="hospital-page">
-      <h1>📝 Create Blood Request</h1>
-      <p>Submit a new blood request to notify donors or organizations.</p>
-
+      <h1>📝 Hospital Blood Request Form</h1>
       <form className="request-form" onSubmit={handleSubmit}>
-        {/* Blood Type */}
         <div className="form-group">
-          <label>Blood Type</label>
-          <select
-            value={bloodType}
-            onChange={(e) => setBloodType(e.target.value)}
-            required
-          >
-            <option value="" disabled>
-              Select Blood Type
-            </option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
+          <label>Blood Group</label>
+          <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} required>
+            <option value="">Select Blood Type</option>
+            {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map(bg => <option key={bg} value={bg}>{bg}</option>)}
           </select>
         </div>
 
-        {/* Units */}
+        <button type="button" className="submit-btn" onClick={searchBloodStock}>
+          🔍 Search Compatible Blood
+        </button>
+        {searchMessage && <p className="error-msg">{searchMessage}</p>}
+
         <div className="form-group">
-          <label>Units Needed (bags)</label>
-          <input
-            type="number"
-            min="1"
-            placeholder="Enter number of units"
-            value={units}
-            onChange={(e) => setUnits(e.target.value)}
-            required
-          />
+          <label>Units</label>
+          <input type="number" min="1" name="units" value={formData.units} onChange={handleChange} required />
         </div>
 
-        {/* Detectable Location */}
         <div className="form-group">
-          <label>Current Location</label>
-          <input
-            type="text"
-            readOnly
-            value={loadingLocation ? "Detecting location..." : location}
-            onClick={detectLocation}
-            style={{ cursor: "pointer", background: "#3b3b3bff" }}
-            required
-          />
-          <small style={{ color: "#b91c1c" }}>
-            (Click to auto-detect your location)
-          </small>
+          <label>Location</label>
+          <input type="text" readOnly value={locStatus || "Click to detect location"} onClick={detectLocation} style={{ cursor: "pointer" }} />
         </div>
 
-        {/* Buttons */}
-        <div className="button-row">
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Submitting..." : "Submit Request"}
-          </button>
+        <button type="submit" className="submit-btn">Submit Request</button>
 
-          <button type="button" className="reset-btn" onClick={resetForm}>
-            Clear Form
-          </button>
-        </div>
+        {bloodResults.length > 0 && (
+          <div className="results-list">
+            <h3>🩸 Available & Compatible Blood</h3>
+            {bloodResults.map(item => (
+              <div key={item.Id} className="result-card">
+                <p><strong>Blood Group:</strong> {item.BloodGroup}</p>
+                <p><strong>Blood Bank ID:</strong> {item.BloodBankId}</p>
+                <p><strong>Expiry:</strong> {item.ExpiryDate}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </form>
     </div>
   );

@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  ClipboardList,
-  Users, 
-} from "lucide-react";
-import { Link } from "react-router-dom";
+import { ClipboardList, Users } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import "./HospitalHomePage.css";
 
 export default function HospitalHomePage() {
-  const [activeHospital, setActiveHospital] = useState(null);
+  const [activeUser, setActiveUser] = useState(null);
+  const navigate = useNavigate();
 
-  // ✅ Load active hospital profile from localStorage
+  // Load active user from localStorage
   useEffect(() => {
-    const storedHospital = localStorage.getItem("activeHospital");
-    if (storedHospital) {
-      setActiveHospital(JSON.parse(storedHospital));
+    const storedUser = localStorage.getItem("activeUser");
+    if (storedUser) {
+      setActiveUser(JSON.parse(storedUser));
     }
   }, []);
 
@@ -22,24 +20,36 @@ export default function HospitalHomePage() {
     { label: "Donors", icon: <Users size={28} />, path: "/hospital/donors" },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem("activeUser");
+    setActiveUser(null);
+    navigate("/", { replace: true });
+  };
+
   return (
     <div className="page2-wrapper">
       <div className="home-container">
-        {/* ✅ Hospital header */}
-        {activeHospital ? (
-          <div className="active-user-banner hospital-banner">
-            <h2>🏥 Welcome, <span>{activeHospital.name}</span>!</h2>
-            <p>{activeHospital.email}</p>
-            <p>Location: {activeHospital.location}</p>
-          </div>
-        ) : (
-          <div className="active-user-banner hospital-banner">
-            <h2>🏥 Welcome to BloodLink for Hospitals!</h2>
-            <p>Login or register your hospital to get started</p>
-          </div>
-        )}
+        {/* Active User Banner */}
+     {activeUser ? (
+  <div className="active-user-banner hospital-banner">
+    <h2>🏥 Welcome to the Hospital Dashboard, <span>{activeUser.name}</span>!</h2>
+    <p>{activeUser.email}</p>
+    <p>Blood Group: {activeUser.blood_type || "N/A"}</p>
 
-        {/* Top image */}
+    {/* Logout Button */}
+    <button className="logout-button" onClick={handleLogout}>
+      Logout
+    </button>
+  </div>
+) : (
+  <div className="active-user-banner hospital-banner">
+    <h2>🏥 Welcome to BloodLink for Hospitals!</h2>
+    <p>Login or register your hospital to get started</p>
+  </div>
+)}
+
+
+        {/* Top Image */}
         <div className="image-box">
           <img
             src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png"
@@ -48,14 +58,7 @@ export default function HospitalHomePage() {
           />
         </div>
 
-        {/* Slider dots */}
-        {/* <div className="slider-dots">
-          <span className="dot active"></span>
-          <span className="dot"></span>
-          <span className="dot"></span>
-        </div> */}
-
-        {/* Menu grid */}
+        {/* Menu Grid */}
         <div className="menu-grid">
           {menuItems.map((item, idx) => (
             <div key={idx} className="menu-card">
@@ -63,18 +66,6 @@ export default function HospitalHomePage() {
                 <div className="menu-icon">{item.icon}</div>
                 <p className="menu-label">{item.label}</p>
               </Link>
-
-              {/* Example submenu for Blood Inventory */}
-              {item.label === "Blood Inventory" && (
-                <div className="submenu">
-                  <Link to="/hospital/inventory/view" className="submenu-btn">
-                    View
-                  </Link>
-                  <Link to="/hospital/inventory/update" className="submenu-btn">
-                    Update
-                  </Link>
-                </div>
-              )}
             </div>
           ))}
         </div>

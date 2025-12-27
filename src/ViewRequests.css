@@ -1,45 +1,60 @@
+/* Page wrapper */
 .req-page-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #d32f2f;
+  background: #d32f2f; /* dark red background */
   padding: 30px;
+  font-family: Arial, sans-serif;
+  color: #333; /* default text color */
 }
 
+/* Header */
 .req-header {
   font-size: 28px;
   font-weight: bold;
   color: white;
-  background: #ac0101;
+  background: #ac0101; /* darker red */
   padding: 15px 20px;
   border-radius: 10px;
   margin-bottom: 25px;
 }
 
+/* List of requests */
 .req-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+/* Individual request card */
 .req-card {
-  background: white;
+  background: #fff; /* white card */
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  color: #333; /* text color inside card */
 }
 
+/* Rows inside card */
 .req-row {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 8px;
   font-size: 16px;
+  color: #333;
 }
 
+.req-row strong {
+  color: #000;
+}
+
+/* Icons */
 .req-icon {
   color: #d32f2f;
 }
 
+/* Status row */
 .status-row .warn {
   color: orange;
 }
@@ -49,25 +64,117 @@
   color: orange;
 }
 
-.respond-btn {
+/* Buttons */
+.respond-btn,
+.edit-btn {
   width: 100%;
   margin-top: 12px;
   padding: 12px 0;
   background: #d32f2f;
   border: none;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: white;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.respond-btn:hover {
+.respond-btn:hover,
+.edit-btn:hover {
   background: #b71c1c;
 }
 
+/* No requests message */
 .no-requests {
   font-size: 18px;
   text-align: center;
   margin-top: 40px;
+  color: #fff; /* make message visible on red background */
+}
+
+/* Modal overlay */
+.edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal box */
+.edit-modal-content {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  color: #333;
+}
+
+/* Modal labels */
+.edit-modal-content label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Inputs and selects */
+.edit-modal-content input,
+.edit-modal-content select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* Modal buttons container */
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Save button */
+.save-btn {
+  padding: 10px 20px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.save-btn:hover {
+  background-color: #b71c1c;
+}
+
+/* Cancel button */
+.cancel-btn {
+  padding: 10px 20px;
+  background-color: #aaa;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cancel-btn:hover {
+  background-color: #888;
 }

@@ -284,3 +284,23 @@
   display: block;
   margin-top: 4px;
 }
+
+.notification-wrapper {
+  position: fixed; /* top-right of screen */
+  top: 20px;
+  right: 25px;
+  z-index: 999;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  pointer-events: none;
+}
