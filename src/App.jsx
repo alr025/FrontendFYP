@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import UserHomePage from "./UserHomePage";
 import DonorPage from "./DonorPage";
-import NearbyBloodBank from "./NearbyBloodBank";
-import MapModal from "./MapModal";
 import UserFaq from "./UserFaq";
 import RequestPage from "./RequestPage";
 import BloodCampPage from "./BloodCampPage";
 import FamilyMembers from "./FamilyMembers";
+import LocationSelectionPage from "./LocationSelectionPage";
+import NearbyBloodBank from "./NearbyBloodBank";
+import MapModal from "./MapModal";
+
 
 import OrganizationHomePage from "./OrganizationHomePage";
 import HospitalHomePage from "./HospitalHomePage";
@@ -18,6 +20,7 @@ import ManageCamps from "./ManageCamps";
 import DonorList from "./DonorList";
 import ViewRequests from "./ViewRequests";
 import OrganizationBloodBank from "./OrganizationBloodBank";
+import ReservedBloodPage from "./ReservedBloodPage";
 
 
 import HospitalInventory from "./HospitalInventory";
@@ -36,7 +39,9 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/UserHomePage" element={<UserHomePage />} />
         <Route path="/donor" element={<DonorPage />} />
-        <Route path="/blood-bank/nearby" element={<NearbyBloodBank />} />
+       <Route path="/select-location" element={<LocationSelectionPage />} />
+        <Route path="/nearby-bloodbanks" element={<NearbyBloodBank />} />
+
         <Route path="/request" element={<RequestPage />} />
         <Route path="/map-modal" element={<MapModal />} />
         <Route path="/Userfaq" element={<UserFaq />} />
@@ -47,7 +52,7 @@ function App() {
         <Route path="/camp" element={<BloodCampPage />} />
 
         {/* Family members */}
-        /*<Route path="/family-members" element={<FamilyMembers />} />*/
+        {/*<Route path="/family-members" element={<FamilyMembers />} />*/}
         <Route path="/familymembers" element={<FamilyMembers />} />
 
         {/* --- Organization Routes --- */}
@@ -56,6 +61,8 @@ function App() {
         <Route path="/org/donors" element={<DonorList />} />
         <Route path="/org/requests" element={<ViewRequests />} />
         <Route path="/org/bloodbank" element={<OrganizationBloodBank />} />
+// In App.js or wherever routes are defined
+        <Route path="/reserved-blood" element={<ReservedBloodPage />} />
 
         {/* --- Hospital Routes --- */}
         <Route path="/HospitalHomePage" element={<HospitalHomePage />} />

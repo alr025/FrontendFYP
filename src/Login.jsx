@@ -19,6 +19,10 @@ export default function Login() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("login");
 
+  const [hasDisease, setHasDisease] = useState(false);
+const [disease, setDisease] = useState("");
+
+
   // Login states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -135,6 +139,7 @@ export default function Login() {
       Type: category || "Person",
       BloodType: bloodType,
       Location: location,    // FIXED
+       Disease: hasDisease ? disease : null,
     };
 
     const response = await axios.post(`${API_BASE}/Signup`, payload);
@@ -386,6 +391,40 @@ export default function Login() {
                       <option value="O-">O-</option>
                     </select>
                   </div>
+                  {/* Disease Checkbox */}
+<div className="input-field checkbox-field">
+  <label className="checkbox-label">
+    <input
+      type="checkbox"
+      checked={hasDisease}
+      onChange={(e) => {
+        setHasDisease(e.target.checked);
+        if (!e.target.checked) setDisease("");
+      }}
+    />
+    <span className="checkmarkk"></span>
+    Do you suffer from any disease?
+  </label>
+</div>
+
+{/* Disease Dropdown (only if checked) */}
+{hasDisease && (
+  <div className="input-field">
+    <FaVirus className="icon" />
+    <select
+      value={disease}
+      onChange={(e) => setDisease(e.target.value)}
+      className="category-select"
+    >
+      <option value="" disabled hidden>
+        Select Disease
+      </option>
+      <option value="Thalassemia">Thalassemia</option>
+      <option value="Polycythemia">Polycythemia</option>
+    </select>
+  </div>
+)}
+
 
                   <div className="input-field checkbox-field">
                     <FaVirus className="icon" />

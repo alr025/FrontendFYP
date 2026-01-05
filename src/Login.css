@@ -348,6 +348,37 @@
 .remember-me input[type="checkbox"] {
   display: none;
 }
+/* Disease checkbox - BLACK */
+.checkbox-field .checkbox-label {
+  color: #000; /* text black */
+  font-weight: 500;
+}
+
+.checkmarkk {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #000; /* black border */
+  border-radius: 4px;
+  margin-right: 8px;
+  position: relative;
+}
+
+/* when checked */
+.checkbox-label input:checked + .checkmarkk {
+  background: #000; /* black fill */
+  border-color: #000;
+}
+
+.checkbox-label input:checked + .checkmarkk::after {
+  content: "✓";
+  color: white; /* tick visible */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: bold;
+}
 
 .checkmark {
   width: 18px;

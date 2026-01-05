@@ -1,0 +1,138 @@
+/* ============================= */
+/* Page Background */
+/* ============================= */
+.reserved-blood-page {
+  min-height: 100vh;
+  background-color: #800000; /* maroon */
+  padding: 30px 20px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+/* ============================= */
+/* Section Containers */
+/* ============================= */
+.reserved-blood-section,
+.available-blood-section {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 16px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Reserved Section */
+.reserved-blood-section {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid #ff6b6b;
+}
+
+/* Available Section */
+.available-blood-section {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid #4caf50;
+  margin-bottom: 40px;
+}
+
+/* ============================= */
+/* Cards */
+/* ============================= */
+.reserved-card,
+.available-card {
+  background-color: #ffffff;
+  color: #1e293b;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Card text stack */
+.reserved-card > div,
+.available-card > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ============================= */
+/* Buttons */
+/* ============================= */
+.reserved-card button,
+.available-card button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Cancel */
+.reserved-card button {
+  background-color: #e63946;
+  color: white;
+}
+
+.reserved-card button:hover {
+  background-color: #c71f32;
+}
+
+/* Reserve */
+.available-card button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.available-card button:hover {
+  background-color: #388e3c;
+}
+
+/* ============================= */
+/* Bank Selector */
+/* ============================= */
+.bank-selector {
+  max-width: 900px;
+  margin: 0 auto 25px auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+}
+
+.bank-selector select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+/* ============================= */
+/* Headings */
+/* ============================= */
+.reserved-blood-page h2,
+.reserved-blood-section h3,
+.available-blood-section h3 {
+  color: #ffd700;
+  margin-bottom: 12px;
+}
+
+/* ============================= */
+/* Back Button */
+/* ============================= */
+.back-btn {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}

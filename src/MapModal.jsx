@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import "./MapModel.css"; // CSS we wrote earlier
+import { useLocation, useNavigate } from "react-router-dom";
+import "./MapModel.css";
 
 // Custom red pin icon
 const redIcon = new L.DivIcon({
@@ -23,6 +23,10 @@ const MapModal = () => {
   const mapRef = useRef(null);
   const leafletMapRef = useRef(null);
   const markerRef = useRef(null);
+
+  const navigate = useNavigate();
+  const routerLocation = useLocation();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCoords, setSelectedCoords] = useState(null);
   const [organizations, setOrganizations] = useState([]);
@@ -32,16 +36,15 @@ const MapModal = () => {
 
   // Pakistan bounds
   const pakistanBounds = [
-    [23.6345, 60.8727], // SW
-    [37.0841, 77.8375], // NE
+    [23.6345, 60.8727],
+    [37.0841, 77.8375],
   ];
 
-  // Notification coordinates
-  const location = useLocation();
-  const coords = location.state?.coords;
-  const name = location.state?.name;
+  const coords = routerLocation.state?.coords;
+  const type = routerLocation.state?.type;
+  const name = routerLocation.state?.name;
 
-  // Fetch hospitals from API
+  // Fetch hospitals
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
@@ -51,7 +54,6 @@ const MapModal = () => {
 
         setOrganizations(res.data);
 
-        // Add markers for all hospitals
         const map = leafletMapRef.current;
         if (!map) return;
 
@@ -78,44 +80,40 @@ const MapModal = () => {
   useEffect(() => {
     if (!mapRef.current) return;
 
+    const startCoords = coords
+      ? [coords.lat, coords.lng]
+      : islamabadCoords;
+
     const map = L.map(mapRef.current, {
-      center: islamabadCoords,
-      zoom: 12,
+      center: startCoords,
+      zoom: coords ? 16 : 12,
       minZoom: 5,
       maxZoom: 18,
       maxBounds: pakistanBounds,
       maxBoundsViscosity: 1.0,
     });
+
     leafletMapRef.current = map;
 
-    // Base tiles
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
     }).addTo(map);
 
-    // Default marker at Islamabad
-    markerRef.current = L.marker(islamabadCoords, {
+    markerRef.current = L.marker(startCoords, {
       draggable: true,
       icon: redIcon,
     }).addTo(map);
-    markerRef.current.bindPopup("📍 Islamabad").openPopup();
-    setSelectedCoords({ lat: islamabadCoords[0], lng: islamabadCoords[1] });
 
-    // ✅ Show notification marker if coords exist
-    if (coords) {
-      if (markerRef.current) map.removeLayer(markerRef.current);
+    markerRef.current
+      .bindPopup(name ? `<b>${name}</b>` : "📍 Selected Location")
+      .openPopup();
 
-      markerRef.current = L.marker([coords.lat, coords.lng], { icon: redIcon })
-        .addTo(map)
-        .bindPopup(`<b>${name}</b>`)
-        .openPopup();
+    setSelectedCoords({
+      lat: startCoords[0],
+      lng: startCoords[1],
+    });
 
-      map.setView([coords.lat, coords.lng], 16);
-      setSelectedCoords(coords);
-    }
-
-    // Double-click to place marker
     map.on("dblclick", (e) => {
       const { lat, lng } = e.latlng;
       if (markerRef.current) map.removeLayer(markerRef.current);
@@ -124,26 +122,30 @@ const MapModal = () => {
         draggable: true,
         icon: redIcon,
       }).addTo(map);
+
       markerRef.current
         .bindPopup(
-          `📍 Selected Location<br/>Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(
+          `📍 Selected Location<br/>Lat: ${lat.toFixed(
             5
-          )}`
+          )}, Lng: ${lng.toFixed(5)}`
         )
         .openPopup();
+
       setSelectedCoords({ lat, lng });
     });
 
     return () => map.remove();
   }, [coords]);
 
-  // Handle geolocation
+  // Geolocation
   const handleFindLocation = () => {
-    if (!navigator.geolocation) return alert("Geolocation not supported.");
+    if (!navigator.geolocation)
+      return alert("Geolocation not supported.");
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
+
         if (
           latitude < 23.6345 ||
           latitude > 37.0841 ||
@@ -160,6 +162,7 @@ const MapModal = () => {
           draggable: true,
           icon: redIcon,
         }).addTo(map);
+
         markerRef.current
           .bindPopup(
             `📍 You are here<br/>Lat: ${latitude.toFixed(
@@ -168,7 +171,7 @@ const MapModal = () => {
           )
           .openPopup();
 
-        map.setView([latitude, longitude], 15, { animate: true });
+        map.setView([latitude, longitude], 15);
         setSelectedCoords({ lat: latitude, lng: longitude });
       },
       () => alert("Unable to get location."),
@@ -176,13 +179,13 @@ const MapModal = () => {
     );
   };
 
-  // Handle search with axios
+  // Search
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
 
     try {
       const res = await axios.get(
-        `https://nominatim.openstreetmap.org/search`,
+        "https://nominatim.openstreetmap.org/search",
         {
           params: {
             format: "json",
@@ -193,40 +196,41 @@ const MapModal = () => {
         }
       );
 
-      const data = res.data;
+      if (!res.data.length)
+        return alert("❌ Location not found in Pakistan!");
 
-      if (data.length > 0) {
-        const { lat, lon } = data[0];
-        const map = leafletMapRef.current;
-        if (markerRef.current) map.removeLayer(markerRef.current);
+      const { lat, lon } = res.data[0];
+      const map = leafletMapRef.current;
 
-        markerRef.current = L.marker([lat, lon], {
-          draggable: true,
-          icon: redIcon,
-        }).addTo(map);
-        markerRef.current
-          .bindPopup(
-            `📍 ${searchQuery}<br/>Lat: ${parseFloat(lat).toFixed(
-              5
-            )}, Lng: ${parseFloat(lon).toFixed(5)}`
-          )
-          .openPopup();
+      if (markerRef.current) map.removeLayer(markerRef.current);
 
-        map.setView([lat, lon], 15, { animate: true });
-        setSelectedCoords({ lat: parseFloat(lat), lng: parseFloat(lon) });
-      } else alert("❌ Location not found in Pakistan!");
+      markerRef.current = L.marker([lat, lon], {
+        draggable: true,
+        icon: redIcon,
+      }).addTo(map);
+
+      markerRef.current
+        .bindPopup(
+          `📍 ${searchQuery}<br/>Lat: ${(+lat).toFixed(
+            5
+          )}, Lng: ${(+lon).toFixed(5)}`
+        )
+        .openPopup();
+
+      map.setView([lat, lon], 15);
+      setSelectedCoords({ lat: +lat, lng: +lon });
     } catch (err) {
-      console.error("Error in search:", err);
+      console.error(err);
       alert("❌ Failed to search location.");
     }
   };
 
-  // When user clicks hospital in sidebar
+  // Hospital click
   const handleHospitalClick = (org) => {
     const map = leafletMapRef.current;
     if (!map || !org.latitude || !org.longitude) return;
 
-    map.setView([org.latitude, org.longitude], 15, { animate: true });
+    map.setView([org.latitude, org.longitude], 15);
     L.popup()
       .setLatLng([org.latitude, org.longitude])
       .setContent(`
@@ -237,21 +241,32 @@ const MapModal = () => {
       .openOn(map);
   };
 
-  const handleDone = () => {
-    if (selectedCoords) {
-      alert(
-        `Selected Coordinates:\nLatitude: ${selectedCoords.lat}\nLongitude: ${selectedCoords.lng}`
-      );
-    } else {
-      alert("No location selected yet!");
-    }
-  };
+  // ✅ DONE BUTTON (FIXED)
+const handleDone = () => {
+  if (!selectedCoords) {
+    alert("No location selected!");
+    return;
+  }
+
+ // When done selecting location
+navigate("/select-location", {
+  replace: true,
+  state: {
+    type,
+    coords: selectedCoords,
+    currentLocation: type === "current" ? selectedCoords : routerLocation.state?.currentLocation,
+    destinationLocation: type === "destination" ? selectedCoords : routerLocation.state?.destinationLocation,
+    recordId: routerLocation.state?.recordId
+  }
+});
+
+};
+
 
   return (
     <div className="map-container">
-      {/* Sidebar */}
       <div className="sidebar">
-        <h3> Hospitals</h3>
+        <h3>Hospitals</h3>
         <ul>
           {organizations.map((org) => (
             <li key={org.id} onClick={() => handleHospitalClick(org)}>
@@ -263,7 +278,6 @@ const MapModal = () => {
         </ul>
       </div>
 
-      {/* Map */}
       <div className="map-wrapper">
         <div className="controls">
           <input

@@ -3,7 +3,15 @@ import { User, Mail, Droplet, Plus, Users, Trash } from "lucide-react";
 import "./FamilyMembers.css";
 
 export default function FamilyMembers() {
-  const USER_ID = 1; // TODO: Replace with actual logged-in user ID
+const loggedInUser = JSON.parse(localStorage.getItem("activeUser"));
+
+if (!loggedInUser) {
+  alert("Please login again");
+  window.location.href = "/login";
+  return null;
+}
+
+const USER_ID = loggedInUser.id; // ✅ REAL USER ID
 
   const [users, setUsers] = useState([]);       // Family relations from backend
   const [loading, setLoading] = useState(true);

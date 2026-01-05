@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import "./RequestPage.css";
 
 export default function RequestPage() {
+  
+  const activeUser = JSON.parse(localStorage.getItem("activeUser"));
+
   const [formData, setFormData] = useState({
-    userId: 1, // TODO: replace with logged-in user
+    userId: activeUser?.id, // TODO: replace with logged-in user
     organizationId: 1,
     bloodGroup: "",
     quantity: 1,
